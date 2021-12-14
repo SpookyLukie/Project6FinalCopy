@@ -4,6 +4,7 @@ import com.example.aggregator.client.AggregatorRestClient;
 import com.example.aggregator.model.Entry;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,5 +24,17 @@ public class AggregatorService {
     public List<Entry> getWordsStartingWith(String chars) {
 
         return restClient.getWordsStartingWith(chars);
+    }
+
+    public List<Entry> getWordsThatContainSuccessiveLettersAndStartsWith(String chars) {
+
+        List<Entry> wordsThatStartWith = restClient.getWordsStartingWith(chars);
+        List<Entry> wordsThatContainSuccessiveLetters = restClient.getWordsThatContainConsecutiveLetters();
+
+        // combine lists with common words
+        List<Entry> common = new ArrayList<>(wordsThatStartWith);
+        common.retainAll(wordsThatContainSuccessiveLetters);
+
+        return common;
     }
 }
