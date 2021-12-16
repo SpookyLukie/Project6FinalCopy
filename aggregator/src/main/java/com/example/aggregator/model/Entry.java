@@ -1,6 +1,8 @@
 package com.example.aggregator.model;
 
-public class Entry {
+import java.util.Objects;
+
+public class Entry implements Comparable<Entry> {
 
     private String word;
     private String definition;
@@ -27,6 +29,24 @@ public class Entry {
 
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entry entry = (Entry) o;
+        return Objects.equals(word, entry.word) && Objects.equals(definition, entry.definition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(word, definition);
+    }
+
+    @Override
+    public int compareTo(Entry that) {
+        return this.word.compareTo(that.word);
     }
 
     @Override
